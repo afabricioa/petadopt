@@ -14,6 +14,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@clerk/clerk-expo": "^2.8.1",
+    "@clerk/types": "^4.47.0",
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/bottom-tabs": "^7.0.0",
     "@react-navigation/native": "^7.0.0",
@@ -24,11 +26,13 @@
     "expo-haptics": "~14.0.0",
     "expo-linking": "~7.0.3",
     "expo-router": "~4.0.11",
+    "expo-secure-store": "^14.0.1",
     "expo-splash-screen": "~0.29.15",
     "expo-status-bar": "~2.0.0",
     "expo-symbols": "~0.2.0",
     "expo-system-ui": "~4.0.5",
     "expo-web-browser": "~14.0.1",
+    "firebase": "^11.4.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.3",
