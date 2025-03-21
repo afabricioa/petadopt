@@ -1,9 +1,13 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Header from "../components/Home/Header";
 import Slider from "../components/Home/Slider";
+import Category from "../components/Home/Category";
 import PetListByCategory from "../components/Home/PetListByCategory";
+import { useState } from "react";
 
 export default function Home() {
+    const [selectedCategory, setSelectedCategory] = useState("");
+
     return (
         <View
             style={{
@@ -17,9 +21,9 @@ export default function Home() {
             {/* Slider */}
             <Slider />
             {/* Category */}
-            <PetListByCategory />
+            <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
             {/* List of pets */}
-
+            <PetListByCategory selectedCategory={selectedCategory}/>
             {/* Add new pet */}
         </View>
     )
