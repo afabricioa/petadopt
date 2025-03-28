@@ -1,28 +1,33 @@
-import { View, Text } from 'react-native';
+import { FlatList, StyleSheet, View, Image, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import Category from './Category';
-import { collection, getDocs, query } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/app/Config/FirebaseConfig';
+import Colors from '@/constants/Colors';
 
-export default function PetListByCategory() {
-    const [categories, setCategories] = useState<any[]>([]);
-    
-    const queryCategory = query(collection(db, 'Category'));
+interface PetListByCategoryProps {
+    selectedCategory: string;
+}
+
+export default function PetListByCategory({ selectedCategory }: Readonly<PetListByCategoryProps>) {
+    const [pets, setPets] = useState<any[]>([]);
+
+    const queryPetsByCategory = query(collection(db, 'Pets'), where("category", "==", selectedCategory))
 
     useEffect(() => {
-        GetCategories();
-    }, [])
+        GetPetsByCategory();
+    }, [selectedCategory])
 
-    const GetCategories = async () => {
-        setCategories([]);
+    const GetPetsByCategory = async () => {
+        setPets([]);
 
-        const snapShot = await getDocs(queryCategory);
+        const snapShot = await getDocs(queryPetsByCategory);
 
         snapShot.forEach((doc) => {
-            setCategories(categories => [...categories, doc.data()]);
-        });
+            setPets(pets => [...pets, doc.data()]);
+        })
     }
 
+    console.log(pets)
     return (
         <View
             style={{
@@ -34,10 +39,37 @@ export default function PetListByCategory() {
                 alignContent: 'center'
             }}
         >
-            { categories?.map((category) => (
-                    <Category key={category.id} category={category.name} imageUrl={category.imageUrl}/>
-                )) 
-            }
+            <FlatList
+                data={pets}
+                style={{
+                    display: 'flex',
+                    flex: 1,
+                    columnGap: 5
+                }}
+                numColumns={2}
+                renderItem={({item, index}) => (
+                    <View>
+                        <View
+                            style={styles.petCard}
+                        >
+                            <Image 
+                                source={{uri: item?.imageUrl}}
+                            />
+                        </View>
+                        <Text>
+                            {item.name}
+                        </Text>
+                    </View>
+                )}
+            />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    petCard: {
+        height: 200,
+        width: 150,
+        backgroundColor: Colors.PRIMARY,
+    }
+})
