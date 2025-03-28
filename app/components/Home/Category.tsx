@@ -5,13 +5,13 @@ import { query, collection, getDocs } from 'firebase/firestore';
 import Colors from '@/constants/Colors';
 
 interface CategoryProps {
-    selectedCategory: string;
-    setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
+    category: any;
 }
 
-export default function Category({selectedCategory, setSelectedCategory}: Readonly<CategoryProps>) {
+export default function Category({category}: Readonly<CategoryProps>) {
     const [categories, setCategories] = useState<any[]>([]);
-
+    const [selectedCategory, setSelectedCategory] = useState<string>('Cachorro');
+    
     const queryCategory = query(collection(db, 'Category'));
 
     useEffect(() => {
@@ -46,7 +46,10 @@ export default function Category({selectedCategory, setSelectedCategory}: Readon
                 numColumns={4}
                 renderItem={({item, index}) => (
                     <TouchableOpacity
-                        onPress={() => setSelectedCategory(item.name)}
+                        onPress={() => {
+                            setSelectedCategory(item.name);
+                            category(item.name);
+                        }}
                     > 
                         <View style={styles.categoryContainer}>
                             <Image source={{uri: item?.imageUrl}}

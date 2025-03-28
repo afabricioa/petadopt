@@ -1,65 +1,55 @@
-import { FlatList, StyleSheet, View, Image, Text } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/app/Config/FirebaseConfig';
 import Colors from '@/constants/Colors';
+import Category from './Category';
+import PetItem from './Pet';
 
 interface PetListByCategoryProps {
     selectedCategory: string;
 }
 
-export default function PetListByCategory({ selectedCategory }: Readonly<PetListByCategoryProps>) {
+export default function PetListByCategory() {
     const [pets, setPets] = useState<any[]>([]);
-
-    const queryPetsByCategory = query(collection(db, 'Pets'), where("category", "==", selectedCategory))
+    const [selectedCategory, setSelectedCategory] = useState<string>('Cachorro');
+    const [loader, setLoader] = useState<boolean>(false);
 
     useEffect(() => {
-        GetPetsByCategory();
-    }, [selectedCategory])
+        GetPetList(selectedCategory);
+    }, [selectedCategory]);
 
-    const GetPetsByCategory = async () => {
+    const GetPetList = async (value: string) => {
+        setLoader(true);
         setPets([]);
+        const queryPet = query(collection(db, 'Pets'), where('category', '==', value));
+        
+        const snapShotPet = await getDocs(queryPet);
 
-        const snapShot = await getDocs(queryPetsByCategory);
-
-        snapShot.forEach((doc) => {
+        snapShotPet.forEach((doc) => {
+            console.log(doc.data());
             setPets(pets => [...pets, doc.data()]);
-        })
+        });
+        setLoader(false);
     }
 
-    console.log(pets)
     return (
-        <View
-            style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                gap: 15,
-                alignItems: 'center',
-                alignContent: 'center'
-            }}
-        >
-            <FlatList
-                data={pets}
+        <View>
+            <Category category={(value: string) => setSelectedCategory(value)}/>
+            <FlatList 
                 style={{
-                    display: 'flex',
-                    flex: 1,
-                    columnGap: 5
+                    marginTop: 10
                 }}
-                numColumns={2}
+                contentContainerStyle={{
+                    gap: 15
+                }}
+                data={pets}
+                horizontal
+                showsHorizontalScrollIndicator={true}
+                refreshing={loader}
+                onRefresh={() => GetPetList('Cachorro')}
                 renderItem={({item, index}) => (
-                    <View>
-                        <View
-                            style={styles.petCard}
-                        >
-                            <Image 
-                                source={{uri: item?.imageUrl}}
-                            />
-                        </View>
-                        <Text>
-                            {item.name}
-                        </Text>
-                    </View>
+                    <PetItem pet={item}/>
                 )}
             />
         </View>
