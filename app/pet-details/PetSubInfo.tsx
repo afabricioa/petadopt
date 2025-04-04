@@ -5,6 +5,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Colors from '@/constants/Colors';
+import PetSubInfoCard from './PetSubInfoCard';
 
 interface PetSubInfoProps {
     age: number;
@@ -25,63 +26,10 @@ export default function PetSubInfo({age, breed, gender, weight}: Readonly<PetSub
             paddingRight: 20
         }}
     >
-        <View style={{width: '48%', marginBottom: 16}}>
-            <View style={styles.infoPet}>
-                <Ionicons name='calendar' size={40} color={Colors.GRAY}/>
-                <View>
-                    <Text style={styles.label}>Idade</Text>
-                    <Text style={styles.value}>{`${age} anos`}</Text>
-                </View>
-            </View>
-        </View>
-        <View style={{width: '48%', marginBottom: 16}}>
-            <View style={styles.infoPet}>
-                <Ionicons name='paw' size={40} color={Colors.GRAY}/>
-                <View>
-                    <Text style={styles.label}>Raça</Text>
-                    <Text style={styles.value}>{breed}</Text>
-                </View>
-            </View>
-        </View>
-        <View style={{width: '48%', marginBottom: 16}}>
-            <View style={styles.infoPet}>
-                <Ionicons name='male-female' size={40} color={Colors.GRAY}/>
-                <View>
-                    <Text style={styles.label}>Gênero</Text>
-                    <Text style={styles.value}>{gender}</Text>
-                </View>
-            </View>
-        </View>
-        <View style={{width: '48%', marginBottom: 16}}>
-            <View style={styles.infoPet}>
-                <FontAwesome5 name='weight' size={40} color={Colors.GRAY}/>
-                <View>
-                    <Text style={styles.label}>Peso</Text>
-                    <Text style={styles.value}>{`${weight}kg`}</Text>
-                </View>
-            </View>
-        </View>
+        <PetSubInfoCard title="Idade" info={`${age} anos`} icon="calendar"/>
+        <PetSubInfoCard title="Raça" info={breed} icon="paw"/>
+        <PetSubInfoCard title="Gênero" info={gender} icon="male-female"/>
+        <PetSubInfoCard title="Peso" info={`${weight}kg`} isFontAwesome={true} faIcon="weight" />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-    infoPet: {
-      display: 'flex', 
-      flexDirection: 'row', 
-      justifyContent: 'space-between', 
-      borderWidth: 1, borderColor: '#000', 
-      borderRadius: 5, 
-      padding: 10,
-    },
-  
-    label: {
-      fontSize: 14, 
-      color: Colors.GRAY
-    },
-  
-    value: {
-      fontSize: 16,
-      fontWeight: 500
-    }
-})
