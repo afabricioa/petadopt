@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '@/app/Config/FirebaseConfig';
+import { db } from '@/Config/FirebaseConfig';
 import Colors from '@/constants/Colors';
 import Category from './Category';
 import PetItem from './Pet';
