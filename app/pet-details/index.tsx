@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
-import { View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import PetInfo from '@/components/PetDetails/PetInfo';
-import PetSubInfo from './PetSubInfo';
+import PetSubInfo from '../../components/PetDetails/PetSubInfo';
+import AboutPet from '../../components/PetDetails/AboutPet';
+import OwnerInfo from '../../components/PetDetails/OwnerInfo';
+import Colors from '@/constants/Colors';
 
 export default function PetDetails() {
   const pet = useLocalSearchParams();
@@ -15,15 +18,44 @@ export default function PetDetails() {
       headerTitle: ''
     })
   }, []);
-
+  console.log(pet)
   return (
     <View>
-      {/* pet info */}
-      <PetInfo pet={pet}/>
-      {/* pet propriedadsa */}
-      { pet && <PetSubInfo age={Number(pet.age)} breed={pet.breed.toString()} gender={pet.genre.toString()} weight={Number(pet.weight)} /> }
-      {/* about */}
-      {/* me adote */}
+      { pet && (
+        <View>
+          <ScrollView>
+            <PetInfo pet={pet}/>
+            <PetSubInfo age={Number(pet?.age)} breed={pet?.breed?.toString()} gender={pet.genre.toString()} weight={Number(pet.weight)} />
+            <AboutPet pet={pet}/>
+            <OwnerInfo pet={pet}/>
+            <View style={{height: 70}}></View>
+          </ScrollView>
+          <View style={styles.bottomContainer}>
+            <TouchableOpacity style={styles.adoptButton}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 20,
+                  fontWeight: 700
+                }}
+              >Me Adote</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+          
+      ) }
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  adoptButton: {
+    padding: 15,
+    backgroundColor: Colors.PRIMARY
+  },
+  bottomContainer: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0
+  }
+});

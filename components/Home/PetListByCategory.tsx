@@ -6,10 +6,6 @@ import Colors from '@/constants/Colors';
 import Category from './Category';
 import PetItem from './Pet';
 
-interface PetListByCategoryProps {
-    selectedCategory: string;
-}
-
 export default function PetListByCategory() {
     const [pets, setPets] = useState<any[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('Cachorro');
@@ -27,8 +23,8 @@ export default function PetListByCategory() {
         const snapShotPet = await getDocs(queryPet);
 
         snapShotPet.forEach((doc) => {
-            console.log(doc.data());
-            setPets(pets => [...pets, doc.data()]);
+            const petData = { id: doc.id, ...doc.data() };
+            setPets(pets => [...pets, petData]);
         });
         setLoader(false);
     }

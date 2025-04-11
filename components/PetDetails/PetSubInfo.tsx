@@ -1,10 +1,7 @@
 import React from 'react'
 
-import { View, StyleSheet, Text } from 'react-native'
+import { View } from 'react-native'
 
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import Colors from '@/constants/Colors';
 import PetSubInfoCard from './PetSubInfoCard';
 
 interface PetSubInfoProps {
