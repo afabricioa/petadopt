@@ -18,7 +18,7 @@ export default function PetDetails() {
       headerTitle: ''
     })
   }, []);
-  console.log(pet)
+
   return (
     <View>
       { pet && (
