@@ -37,7 +37,7 @@ export default function MarkFav({id}: Readonly<MarkFavProps>) {
 
     return (
         <Pressable onPress={() => onClickFavorite()}>
-            <Ionicons name='heart' size={40} color={id && favList?.includes(id) ? Colors.RED : Colors.GRAY} />
+            <Ionicons name='heart' size={30} color={id && favList?.includes(id) ? Colors.RED : Colors.GRAY} />
         </Pressable>
     )
 }
