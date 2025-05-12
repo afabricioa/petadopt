@@ -19,7 +19,7 @@ export default function PetItem({pet}: Readonly<PetItemProps>) {
             style={{
                 padding: 10,
                 backgroundColor: '#fff',
-                borderRadius: 10
+                borderRadius: 10,
             }}
         >
             <View 
